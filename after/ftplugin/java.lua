@@ -1,6 +1,6 @@
-local java_21_path = "/usr/lib/jvm/java-21-openjdk/bin/java"
+local java_17_path = "/usr/lib/jvm/java-17-openjdk/bin/java"
 local jdtls_dir = vim.fn.stdpath("data") .. "/mason/packages/jdtls"
-local jar_path = jdtls_dir .. "/plugins/org.eclipse.equinox.launcher_1.6.600.v20231106-1826.jar"
+local jar_path = jdtls_dir .. "/plugins/org.eclipse.equinox.launcher_1.6.700.v20231214-2017.jar"
 local config_dir = jdtls_dir .. "/config_linux"
 local lombok_path = jdtls_dir .. "/lombok.jar"
 
@@ -11,7 +11,7 @@ os.execute("mkdir " .. workspace_dir)
 local config = {
 	cmd = {
 
-    java_21_path,
+    java_17_path,
 
     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
     '-Dosgi.bundles.defaultStartLevel=4',

@@ -10,3 +10,4 @@ vim.g.mapleader = " "
 vim.o.cursorline = true
 vim.o.hlsearch = false
 
+vim.o.termguicolors = true

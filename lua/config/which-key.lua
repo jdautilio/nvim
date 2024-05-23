@@ -1,9 +1,13 @@
 local wk = require("which-key")
 
+local format = function(opts, callback)
+	require("conform").format(opts or { lsp_fallback = true }, callback)
+end
+
 wk.register({
 	c = {
 		name = "code",
-		f = { require("conform").format, "format" },
+		f = { format, "format" },
 	},
 	f = {
 		name = "file",

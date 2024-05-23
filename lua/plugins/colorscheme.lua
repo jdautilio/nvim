@@ -5,9 +5,9 @@ return {
 		priority = 1000,
 		config = function()
 			require("tokyonight").setup({
-				-- transparent = true,
+				transparent = true,
 			})
-			-- vim.cmd([[colorscheme tokyonight]])
+			vim.cmd([[colorscheme tokyonight]])
 		end,
 	},
 	{
@@ -40,7 +40,18 @@ return {
 					transparent = true,
 				},
 			})
-			vim.cmd([[colorscheme carbonfox]])
+			-- vim.cmd([[colorscheme carbonfox]])
+		end,
+	},
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		priority = 1000,
+		config = function()
+			require("catppuccin").setup({
+				transparent_background = true,
+			})
+			-- vim.cmd.colorscheme([[catppuccin]])
 		end,
 	},
 }

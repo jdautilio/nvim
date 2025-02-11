@@ -1,100 +1,39 @@
-local lsp = require("lspconfig")
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+require('config.cmp')
 
-lsp.lua_ls.setup({
-	capabilities = capabilities,
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim" },
-			},
-		},
-	},
-})
+local lsp = require('lspconfig')
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-lsp.tsserver.setup({
-	capabilities = capabilities,
-})
-
-lsp.eslint.setup({
-  capabilities = capabilities,
-})
-
-lsp.html.setup({
-	capabilities = capabilities,
-})
-
-lsp.emmet_ls.setup({
-	capabilities = capabilities,
-})
-
-lsp.sqlls.setup({
-	capabilities = capabilities,
-})
-
-lsp.clangd.setup({
-	capabilities = capabilities,
-})
-
-lsp.pyright.setup({
-	capabilities = capabilities,
-})
-
-lsp.solargraph.setup({
-	capabilities = capabilities,
-})
-
-lsp.rubocop.setup({
-	capabilities = capabilities,
-})
-
--- Global mappings.
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
-vim.keymap.set("n", "<space>e", vim.diagnostic.open_float)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
-vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist)
-
--- Use LspAttach autocommand to only map the following keys
--- after the language server attaches to the current buffer
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-	callback = function(ev)
-		-- Enable completion triggered by <c-x><c-o>
-		vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-
-		-- Buffer local mappings.
-		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		local opts = { buffer = ev.buf }
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-		vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-		vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
-		vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
-		vim.keymap.set("n", "<space>wl", function()
-			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-		end, opts)
-		vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
-		vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
-		vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-		vim.keymap.set("n", "<space>f", function()
-			vim.lsp.buf.format({ async = true })
-		end, opts)
-	end,
-})
-
-local wk_ok, wk = pcall(require, "which-key")
-if not wk_ok then
-	return
+local servers = { 'lua_ls', 'ruby_lsp' }
+for _, server in pairs(servers) do
+  lsp[server].setup({ capabilities = capabilities })
 end
-wk.register({
-	g = {
-		"go",
-		D = { "declaration" },
-		d = { "definition" },
-		i = { "implementation" },
-	},
-}, { prefix = "<leader>" })
+
+local function format()
+  vim.lsp.buf.format({ async = true })
+end
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client:supports_method('textDocument/implementation') then
+      vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, {buffer = args.buf, desc = "Implementation"})
+    end
+    if client:supports_method('textDocument/definition') then
+      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {buffer = args.buf, desc = "Definition"})
+    end
+    if client:supports_method('textDocument/declaration') then
+      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, {buffer = args.buf, desc = "Declaration"})
+    end
+    if client:supports_method('textDocument/references') then
+      vim.keymap.set('n', 'gr', vim.lsp.buf.references, {buffer = args.buf, desc = "References"})
+    end
+    if client:supports_method('textDocument/formatting') then
+      vim.keymap.set({'n', 'v'}, '<leader>cf', format, {buffer = args.buf, desc = "Format"})
+    end
+    -- Code actions
+    if client:supports_method('textDocument/codeAction') then
+      vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, {buffer = args.buf, desc = "Code actions"})
+    end
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {buffer = args.buf, desc = "Rename"})
+  end,
+})

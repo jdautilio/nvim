@@ -1,9 +1,10 @@
 return {
-    {
-        "williamboman/mason.nvim",
-        opts = {},
-    },
-    {
-        "williamboman/mason-lspconfig.nvim",
-    }
+  {
+    "williamboman/mason.nvim",
+    opts = true,
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    opts = true,
+  }
 }

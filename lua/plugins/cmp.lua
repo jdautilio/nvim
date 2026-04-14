@@ -17,6 +17,18 @@ return {
     config = function()
       local cmp = require'cmp'
 
+      local cr_mapping = cmp.mapping({
+        i = function(fallback)
+          if cmp.visible() and cmp.get_active_entry() then
+            cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+          else
+            fallback()
+          end
+        end,
+        s = cmp.mapping.confirm({ select = true }),
+        c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
+      })
+
       cmp.setup({
         snippet = {
           expand = function(args)
@@ -28,7 +40,8 @@ return {
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
           ['<C-Space>'] = cmp.mapping.complete(),
           ['<C-e>'] = cmp.mapping.abort(),
-          ['<CR>'] = cmp.mapping.confirm({ select = true }),
+
+          ["<CR>"] = cr_mapping,
         }),
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },

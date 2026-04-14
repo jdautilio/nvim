@@ -10,6 +10,12 @@ vim.o.relativenumber    = true
 vim.o.cursorline        = true
 vim.o.hlsearch          = false
 
+vim.o.foldcolumn = '1'
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
+
 
 -- (./lua/nconf/set.lua)
 
@@ -32,9 +38,7 @@ vim.opt.showcmd         = true
 
 vim.opt.swapfile  = false
 vim.opt.backup    = false
-vim.opt.undodir   = os.getenv("HOME") .. "/.config/nvim/undodir"
 vim.opt.undofile  = true
-vim.opt.clipboard = "unnamed"
 
 vim.opt.hlsearch    = true
 vim.opt.incsearch   = true
@@ -47,3 +51,16 @@ vim.opt.showmode = false
 
 -- No automatic comment insertion
 -- vim.cmd([[autocmd FileType * set formatoptions-=ro]])
+
+-- Clear highlights on search when pressing <Esc> in normal mode
+--  See `:help hlsearch`
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
+-- Highlight when yanking (copying) text
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  callback = function()
+    vim.hl.on_yank()
+  end,
+})

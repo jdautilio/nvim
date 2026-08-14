@@ -12,11 +12,7 @@ return {
 		local builtin = require("telescope.builtin")
 
 		local telescope = require("telescope")
-		telescope.setup({
-			defaults = {
-				path_display = { "smart" },
-			},
-		})
+		telescope.setup({})
 
 		telescope.load_extension("fzf")
 

@@ -1,53 +1,57 @@
+vim.cmd("let g:netrw_liststyle = 3")
+
+local o   = vim.o
+local opt = vim.opt
+
 vim.g.mapleader         = " "
 
-vim.o.shiftwidth        = 2
-vim.o.tabstop           = 2
-vim.o.expandtab         = true
+o.shiftwidth        = 2
+o.tabstop           = 2
+o.expandtab         = true
 
-vim.o.number            = true
-vim.o.relativenumber    = true
+o.number            = true
+o.relativenumber    = true
 
-vim.o.cursorline        = true
-vim.o.hlsearch          = false
+o.hlsearch          = false
 
-vim.o.foldcolumn = '1'
-vim.o.foldlevel = 99
-vim.o.foldlevelstart = 99
-vim.o.foldenable = true
+o.foldcolumn = '1'
+o.foldlevel = 99
+o.foldlevelstart = 99
+o.foldenable = true
 
 
 
 -- (./lua/nconf/set.lua)
 
-vim.opt.tabstop     = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth  = 2
-vim.opt.expandtab   = true
-vim.opt.autoindent  = true
-vim.opt.smartindent = true
-vim.opt.smarttab    = true
-vim.opt.list        = true
-vim.opt.listchars   = { tab = '>-', trail = '~', extends = '>', precedes = '<' }
+opt.tabstop     = 2
+opt.softtabstop = 2
+opt.shiftwidth  = 2
+opt.expandtab   = true
+opt.autoindent  = true
+opt.smartindent = true
+opt.smarttab    = true
+opt.list        = true
+opt.listchars   = { tab = '>-', trail = '~', extends = '>', precedes = '<' }
 
-vim.opt.number          = true
-vim.opt.relativenumber  = true
-vim.opt.cursorline      = true
-vim.opt.signcolumn      = "yes:1"
-vim.opt.scrolloff       = 8
-vim.opt.showcmd         = true
+opt.number          = true
+opt.relativenumber  = true
+opt.cursorline      = true
+opt.signcolumn      = "yes"
+opt.scrolloff       = 8
+opt.showcmd         = true
 
-vim.opt.swapfile  = false
-vim.opt.backup    = false
-vim.opt.undofile  = true
+opt.swapfile  = false
+opt.backup    = false
+opt.undofile  = true
 
-vim.opt.hlsearch    = true
-vim.opt.incsearch   = true
-vim.opt.ignorecase  = true
-vim.opt.smartcase   = true
+opt.hlsearch    = true
+opt.incsearch   = true
+opt.ignorecase  = true
+opt.smartcase   = true
 
-vim.opt.termguicolors = true
+opt.termguicolors = true
 
-vim.opt.showmode = false
+opt.showmode = false
 
 -- No automatic comment insertion
 -- vim.cmd([[autocmd FileType * set formatoptions-=ro]])

@@ -1,8 +1,11 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    lazy = false,
+    event = { "BufReadPre", "BufNewFile" },
     build = ":TSUpdate",
+    dependencies = {
+      "windwp/nvim-ts-autotag",
+    },
 
     config = function()
       require('nvim-treesitter').setup({
@@ -16,7 +19,11 @@ return {
         indent = {
           enable = true,
           disable = { 'ruby' },
-        }
+        },
+
+        autotag = {
+          enable = true,
+        },
       })
 
       vim.wo.foldmethod = 'expr'
